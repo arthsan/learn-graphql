@@ -1,12 +1,16 @@
 const graphql = require('graphql');
+const _= require('lodash');
 
-const { GraphQLObjectType, GraphQLString } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLInt } = graphql;
+
+const car = require('../models/car');
 
 const ModelType = new GraphQLObjectType({
   name: 'Model',
   fields: () => ({
     id: { type: GraphQLString },
-    name: { type: GraphQLString },
+    model: { type: GraphQLString },
+    year: { type: GraphQLInt }
   })
 });
 
@@ -17,7 +21,7 @@ const RootQuery = new GraphQLObjectType({
       type: ModelType,
       args: { id: { type: GraphQLString } },
       resolve(parent, args){
-        args.id
+        return _.find(car, { id: args.id });
       }
     }
   })
