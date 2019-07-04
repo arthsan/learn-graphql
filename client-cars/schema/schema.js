@@ -55,7 +55,19 @@ const RootQuery = new GraphQLObjectType({
       type: BrandType,
       args: { id: { type: GraphQLID } },
       resolve(parent,args){
-        return _.find(brand, { id: args.id })
+        return _.find(brand, { id: args.id });
+      }
+    },
+    cars: {
+      type: new GraphQLList(ModelType),
+      resolve(parent, args){
+        return car;
+      }
+    },
+    brands: {
+      type: new GraphQLList(BrandType),
+      resolve(parent, args){
+        return brand;
       }
     }
   })
