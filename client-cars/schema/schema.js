@@ -5,7 +5,8 @@ const { GraphQLObjectType,
   GraphQLString,
   GraphQLSchema, 
   GraphQLInt,
-  GraphQLID
+  GraphQLID,
+  GraphQLList
  } = graphql;
 
 const car = require('../models/car');
@@ -30,7 +31,13 @@ const BrandType = new GraphQLObjectType({
   name: 'Brand',
   fields: () => ({
     id: { type: GraphQLID },
-    name: { type: GraphQLString }
+    name: { type: GraphQLString },
+    cars: {
+      type: new GraphQLList(ModelType),
+      resolve(parent, args){
+        return _.filter(car, { brandId: parent.id })
+      }
+    }
   })
 })
 
